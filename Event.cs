@@ -71,13 +71,50 @@ public class Event
 		this.ReservedSeats = reservedSeats;
 	}
 
-	public void GetReservation()
+	public void GetReservation(int reservedUser)
     {
-		
+        Console.WriteLine("How many seats you want to reserve?");
+		reservedUser = int.Parse(Console.ReadLine());
+
+		if(reservedUser <= 0)
+        {
+			throw new Exception("Invalid input, number of reservations must be positive...");
+        }
+		else if(Date < DateTime.Now)
+        {
+			throw new Exception("Not possible reserved seats for an event of the past!");
+        }
+        else if(this.ReservedSeats == this.MaxSeats)
+        {
+			throw new Exception("Sorry, we're out of seats!");
+		}
+		else
+        {
+			this.ReservedSeats += reservedUser;
+		}
     }
 
-	public void CancelReservation()
+	public void CancelReservation(int cancelReserved)
     {
+        Console.WriteLine("How many seats do you want to cancel?");
+		cancelReserved = int.Parse(Console.ReadLine());
 
+		if(Date < DateTime.Now)
+        {
+			throw new Exception("Not possible cancel seats for an event of the past!");
+        }
+		else if (cancelReserved > ReservedSeats)
+        {
+			throw new Exception("Not possibile cancel more seats than already reserved...");
+        }
+		else
+        {
+			cancelReserved -= ReservedSeats;
+        }
+    }
+
+    public override string ToString()
+    {
+		return $"{this.Date.ToString("dd/MM/yyyy")} - {EventTitle}";
     }
 }
