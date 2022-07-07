@@ -2,15 +2,18 @@
 
 public class Event
 {
+	private string title;
+	private DateTime date;
+	private int maxSeats;
 	public string EventTitle 
 	{
         get
 		{
-			return EventTitle;	
+			return this.title;	
 		}
         set
         {
-			EventTitle = value;
+			this.title = value;
 
 			if (value.Length == 0)
 			{
@@ -22,11 +25,11 @@ public class Event
 	{
 		get
 		{
-			return Date;
+			return this.date;
 		}
 		set
 		{
-			Date = value;
+			this.date = value;
 			DateTime now = DateTime.Now;
 			//Date.Day && Date.Month && Date.Year <= now.Day && now.Month && now.Year
 			if (Date < now.Date)
@@ -39,66 +42,54 @@ public class Event
             }
 		}
 	}
-	public uint MaxSeats 
+	public int MaxSeats 
 	{
 		get 
 		{
-			return MaxSeats;
+			return this.maxSeats;
 		}
 		private set 
 		{
-			MaxSeats = value;
-			try
-			{
-				if(MaxSeats is uint)
-                {
-					MaxSeats = (uint)MaxSeats;
-                }
-			}
-			catch (Exception)
-			{
-				Console.WriteLine("Invalid input, number of seats must be positive...");
-			}
+			this.maxSeats = value;
+
+			if(value <= 0)
+            {
+				throw new Exception("Invalid input, number of seats must be positive...");
+            }
 		} 
 	}
 	public int ReservedSeats { get; private set; }
 
-	public Event(string title, DateOnly date, uint maxSeats, int reservedSeats = 0)
+	public Event(string title, DateTime date, int maxSeats, int reservedSeats = 0)
 	{
 		this.EventTitle = title;
-		this.Date = Date;
+		this.Date = date;
 		this.MaxSeats = maxSeats;
 		this.ReservedSeats = reservedSeats;
 	}
 
 	public void GetReservation(int reservedUser)
     {
-        Console.WriteLine("How many seats you want to reserve?");
-		reservedUser = int.Parse(Console.ReadLine());
-
-		if(reservedUser <= 0)
-        {
+		if (reservedUser <= 0)
+		{
 			throw new Exception("Invalid input, number of reservations must be positive...");
-        }
-		else if(Date < DateTime.Now)
-        {
+		}
+		else if (Date < DateTime.Now)
+		{
 			throw new Exception("Not possible reserved seats for an event of the past!");
-        }
-        else if(this.ReservedSeats == this.MaxSeats)
-        {
-			throw new Exception("Sorry, we're out of seats!");
+		}
+		else if (this.ReservedSeats + reservedUser == this.MaxSeats)
+		{
+			throw new Exception("Sorry, we're out of seats! Try with a small amount");
 		}
 		else
-        {
+		{
 			this.ReservedSeats += reservedUser;
 		}
     }
 
 	public void CancelReservation(int cancelReserved)
     {
-        Console.WriteLine("How many seats do you want to cancel?");
-		cancelReserved = int.Parse(Console.ReadLine());
-
 		if(Date < DateTime.Now)
         {
 			throw new Exception("Not possible cancel seats for an event of the past!");
@@ -116,5 +107,10 @@ public class Event
     public override string ToString()
     {
 		return $"{this.Date.ToString("dd/MM/yyyy")} - {EventTitle}";
+    }
+
+	public void PrintReservation()
+    {
+        Console.WriteLine($"Number of seats reserved: {ReservedSeats} | Seats remains: {MaxSeats - ReservedSeats}");
     }
 }
