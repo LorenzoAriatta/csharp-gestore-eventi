@@ -14,21 +14,75 @@ Poter gestire le prenotazioni e le disdette delle sue conferenze e tenere tracci
 Poter gestire un intero programma di Eventi (ossia tenere traccia di tutti gli eventi che afferiscono ad serie di Conferenze)
 */
 
+// create a new program
+EventProgram eventsSchedule = CreateEventsProgram();
 
-// create a new event
-Event newEvent = CreateEvent();
-
-Console.WriteLine();
-Console.WriteLine("***** Get you reservation now! *****");
-Console.WriteLine();
-
-// make reservation
-Reservations(newEvent);
+AddEventsToProgram();
 
 
 
 
+// method that create a new EventProgram with title
+EventProgram CreateEventsProgram()
+{
+    Console.WriteLine("Let's create YOUR program of events!");
+    Thread.Sleep(1000);
+    Console.Clear();
 
+    Console.Write("First of all, let's give it a name: ");
+    string programTitle = Console.ReadLine();
+
+    EventProgram newProgram;
+    try
+    {
+        return newProgram = new EventProgram(programTitle);
+    }
+    catch (ArgumentNullException)
+    {
+        Console.WriteLine("Invalid title, try to write normally! ;)");
+        return CreateEventsProgram();
+    }
+}
+
+
+// method that add new event in the program
+void AddEventsToProgram()
+{
+    try
+    {
+        Console.Write("How many event do you want to add? ");
+        int n = int.Parse(Console.ReadLine());
+        Thread.Sleep(1000);
+        Console.Clear();
+        Console.WriteLine($"Number of event to add: {n}");
+
+        for (int i = 0; i < n; i++)
+        {
+            // create a new event
+            Event newEvent = CreateEvent();
+
+            Console.WriteLine();
+            Console.WriteLine("***** Get you reservation now! *****");
+            Console.WriteLine();
+
+            // make reservation
+            Reservations(newEvent);
+
+            // cancelling seats
+            Cancellation(newEvent);
+
+            // 
+            eventsSchedule.ListToString();
+        }
+    }
+    catch (Exception)
+    {
+        Console.WriteLine("Not valid, try with a simple number! ;)");
+        Thread.Sleep(1000);
+        Console.Clear();
+        AddEventsToProgram();
+    }
+}
 
 
 
