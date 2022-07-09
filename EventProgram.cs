@@ -40,7 +40,7 @@ public class EventProgram
 
 		foreach(Event eventsToStamp in events)
         {
-			toStamp =  $"{eventsToStamp.Date.ToString("dd/mm/yyyy")} - {eventsToStamp.EventTitle}";
+			toStamp = toStamp + $"{eventsToStamp.Date.ToString("dd/mm/yyyy")} - {eventsToStamp.EventTitle}";
         }
 
 		return toStamp;
@@ -56,23 +56,24 @@ public class EventProgram
 		Console.WriteLine("ATTENTION! With this method you will delete ALL events.");
         Console.WriteLine();
 
-		Thread.Sleep(1000);
+		Thread.Sleep(2000);
         Console.WriteLine("So, you REALLY want delete ALL events?	( yes / no )");
 		string confirm = Console.ReadLine().ToLower();
 
 		if(confirm == "yes")
         {
 			events.Clear();
+            Console.WriteLine("All event are deleted.");
         }
         else
         {
-            Console.WriteLine($"So close!");
+            Console.WriteLine("So close!");
         }
 
 	}
 
 	public string ListToString()
     {
-		return $"{this.Title}\n{EventProgram.StampList(this.events)}";
+		return $"Program name: {this.Title}\n" + StampList(this.events);
     }
 }
