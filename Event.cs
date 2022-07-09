@@ -106,11 +106,11 @@ public class Event
 
     public override string ToString()
     {
-		return $"{this.Date.ToString("dd/MM/yyyy")} - {EventTitle}";
+		return $"{this.Date.ToString("dd/MM/yyyy")} - {this.title}";
     }
 
 	public void PrintReservation()
     {
-        Console.WriteLine($"Number of seats reserved: {ReservedSeats} | Seats remains: {MaxSeats - ReservedSeats}");
+        Console.WriteLine($"Number of seats reserved: {this.ReservedSeats} | Seats remains: {this.maxSeats - this.ReservedSeats}");
     }
 }
