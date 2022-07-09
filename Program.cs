@@ -19,16 +19,43 @@ EventProgram eventsSchedule = CreateEventsProgram();
 
 AddEventsToProgram();
 
+Console.WriteLine("Search an event in program!");
+Console.WriteLine();
 
+Console.WriteLine("Insert a date: (dd/mm/yyyy)");
+DateTime inputDate = DateTime.Parse(Console.ReadLine());
+
+Console.WriteLine("Wait a few seconds....");
+Thread.Sleep(4000);
+
+List<Event> filteredEvents = eventsSchedule.SearchEventByDate(inputDate);
+EventProgram.StampList(filteredEvents);
+
+Thread.Sleep(2000);
+
+Console.WriteLine();
+Console.WriteLine("Now, let's delete ALL events!");
+Console.WriteLine();
+eventsSchedule.ClearList();
+
+Console.WriteLine("Thanks for using EventManager 1.0, BYE!");
 
 
 // method that create a new EventProgram with title
 EventProgram CreateEventsProgram()
 {
-    Console.WriteLine("Let's create YOUR program of events!");
-    Thread.Sleep(1000);
+    Console.WriteLine("--------------------------------");
+    Console.WriteLine("Welcome to the EventManager 1.0!");
+    Console.WriteLine("--------------------------------");
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Here, you will be able to manage your events, create or delete them.\n" +
+        "You can also make reservations or cacellations, COMFORTABLY!");
+    Thread.Sleep(7000);
     Console.Clear();
-
+    Console.WriteLine("Let's create YOUR program of events!");
+    Console.WriteLine();
+    Console.WriteLine();
     Console.Write("First of all, let's give it a name: ");
     string programTitle = Console.ReadLine();
 
@@ -62,7 +89,7 @@ void AddEventsToProgram()
             Event newEvent = CreateEvent();
 
             Console.WriteLine();
-            Console.WriteLine("***** Get you reservation now! *****");
+            Console.WriteLine("***** Get your reservation now! *****");
             Console.WriteLine();
 
             // make reservation
@@ -71,14 +98,26 @@ void AddEventsToProgram()
             // cancelling seats
             Cancellation(newEvent);
 
-            // 
+            // push event in list
+            Console.WriteLine();
+            eventsSchedule.AddEventToList(newEvent);
+            Console.WriteLine();
+
+            // count of event in program
+            Console.WriteLine();
+            eventsSchedule.CountEvents();
+            Console.WriteLine();
+
+            // stamp list of all events in program
+            Console.WriteLine();
             eventsSchedule.ListToString();
+            Console.WriteLine();
         }
     }
     catch (Exception)
     {
         Console.WriteLine("Not valid, try with a simple number! ;)");
-        Thread.Sleep(1000);
+        Thread.Sleep(2000);
         Console.Clear();
         AddEventsToProgram();
     }
